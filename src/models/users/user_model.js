@@ -14,16 +14,9 @@ const user_schema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    full_name: {
+    user_image: {
       type: String,
       required: true,
-    },
-    avatar: {
-      type: String,
-      required: true,
-    },
-    cover_image: {
-      ttype: String,
     },
     user_password: {
       type: String,
@@ -45,20 +38,22 @@ const user_schema = new mongoose.Schema(
         ref: "contest_history",
       },
     ],
+    refresh_token:{
+        type:String
+    },
   },
   { timestamps: true }
 );
 user_schema.pre("save", async function (next) {
   if (!this.isModified("user_password")) return next();
   this.user_password = await bcrypt.hash(this.user_password, 10);
-  ne;
 });
 
 user_schema.methods.is_password_correct = async function (user_password) {
   return await bcrypt.compare(user_password, this.user_password);
 };
 user_schema.methods.generate_access_token = async function () {
-  jwt.sign(
+  return jwt.sign(
     {
       user_id: this._id,
       user_name: this.user_name,
@@ -69,7 +64,7 @@ user_schema.methods.generate_access_token = async function () {
   );
 };
 user_schema.methods.generate_refresh_token = async function () {
-  jwt.sign(
+  return jwt.sign(
     {
       user_id: this._id,
       user_name: this.user_name,

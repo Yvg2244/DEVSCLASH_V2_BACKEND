@@ -1,15 +1,11 @@
 const async_handler=(func)=>{
-     async(req,res,next)=>{
+     return async(req,res,next)=>{
         try {
             await func(req,res,next)
         } catch (error) {
-            res.status(error.code||500).json({success:false,message:error.message})
+            res.status(541).json({success:false,message:`From Async handler Function: ${error.message}`})
         }
     }
 }
-export {async_handler}
-// const async_handler=(req_handler)=>{
-//     (req,res,next)=>{
-//         Promise.resolve(req_handler(req,res,next)).catch(next(err))
-//     }
-// }
+   
+export default async_handler
