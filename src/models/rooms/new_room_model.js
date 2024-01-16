@@ -27,6 +27,6 @@ const new_room_schema = new mongoose.Schema(
             enum:["public","private"],
             required:true
         }
-    }
+    },{ timestamps: true }
 )
 export const new_room_model = mongoose.model("new_room", new_room_schema)

@@ -15,5 +15,7 @@ app.use(cookieParser())
 
 
 import user_router from '../routes/user.routes.js'
+import room_router from "../routes/room.routes.js";
 app.use("/api/v1/users",user_router)
+app.use("/api/v1/rooms",room_router)
 export { app };  
