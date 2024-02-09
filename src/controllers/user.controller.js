@@ -79,7 +79,7 @@ const login_user = async_handler(async (req, res) => {
   //aceess and refresh token generate
   //send cookie and response
   const { user_name, user_email, user_password } = req.body;
-  // console.log(user_name, user_email, user_password);
+  console.log(typeof(req.body));
   if (!(user_name || user_email)) {
     throw new api_error(400, "Username or Email feild is required");
   }
@@ -140,4 +140,8 @@ const logout_user=async_handler(async(req,res)=>{
       )
     );
 })
-export { login_user, register_user,logout_user}
+const view_user=async_handler(async(req,res)=>{ 
+  const user_data=await user_model.findById(req.user._id).select("-user_password -refresh_token -_id")
+  return res.status(200).json(new api_response(200,user_data,"User data fetched successfully"))
+})
+export { login_user, register_user,logout_user,view_user}

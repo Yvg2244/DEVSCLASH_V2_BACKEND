@@ -20,7 +20,8 @@ const create_room = async_handler(async (req, res) => {
         no_of_question,
         start_time,
         difficulty,
-        room_type
+        room_type,
+        active_participants:0
     })
     console.log(create_room)
     const created_room=await new_room_model.findById(create_room._id)
@@ -33,4 +34,8 @@ const create_room = async_handler(async (req, res) => {
     //return response
     return res.status(201).json(new api_response(201,created_room,"Room created successfully"))
 })
-export {create_room}
+const view_rooms=async_handler(async(req,res)=>{
+    const rooms=await new_room_model.find()
+    return res.status(200).json(new api_response(200,rooms,"All rooms fetched successfully"))
+})
+export {create_room,view_rooms}
